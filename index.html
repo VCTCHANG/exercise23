@@ -2,139 +2,139 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>Engineer-Designer Cooperation Example</title>
+    <title>Engineer-Designer Cooperation</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            padding-top: 50px;
+            background-color: #f0f0f0;
+            padding: 40px;
         }
 
-        .container {
+        .card {
             background: white;
-            padding: 20px;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             width: 500px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
-        /* 圖片容器 */
-        .image-wrapper {
-            width: 100%;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .main-image {
+        /* 圖片區 */
+        .preview-img {
             width: 450px;
             height: 240px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            display: block;
+            margin-bottom: 15px;
             object-fit: cover;
-            border: 1px solid #ddd;
         }
 
-        /* 根據設計稿規範繪製的按鈕 */
-        .btn-info {
-            /* 標註：size: h22 / R8 */
-            height: 22px;
-            border-radius: 8px;
+        /* 按鈕嚴格遵守標註：h22, R8, 13px */
+        .btn-check {
+            height: 22px;               /* size: h22 */
+            border-radius: 8px;         /* radius: 8 */
+            background-color: #ffffff;  /* background #ffffff */
+            border: 1px solid #2f2f2f;  /* outline 1px #2f2f2f */
+            color: #2f2f2f;             /* Color: #2f2f2f */
+            font-size: 13px;            /* Roboto Regular 13px */
             
-            /* 標註：background #ffffff / outline 1px #2f2f2f */
-            background-color: #ffffff;
-            border: 1px solid #2f2f2f;
-            
-            /* 標註：Roboto Regular 13px / Color #2f2f2f */
-            font-family: 'Roboto', sans-serif;
-            font-size: 13px;
-            color: #2f2f2f;
-            
-            /* 其他必要樣式 */
-            padding: 0 12px;
+            padding: 0 15px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            outline: none;
-            transition: all 0.2s;
             margin-bottom: 15px;
+            transition: 0.2s;
         }
 
-        .btn-info:hover {
-            background-color: #f0f0f0;
+        .btn-check:hover {
+            background-color: #f6f6f6;
         }
 
-        /* 詳細資訊區塊 (預設隱藏) */
-        #infoBox {
-            display: none;
-            border: 1px solid #ddd;
-            padding: 10px;
+        /* 資訊清單區塊：強制顯示捲軸 */
+        #infoList {
+            display: none;             /* 預設隱藏 */
+            width: 450px;
+            height: 120px;             /* 固定高度以觸發捲軸 */
+            border: 1px solid #eaeaea;
+            overflow-y: scroll;        /* 強制顯示 Scrolling bar */
             background-color: #ffffff;
+        }
+
+        /* 列表列樣式 */
+        .row {
+            display: flex;
+            padding: 8px 12px;
             font-size: 12px;
             color: #707070;
-            max-height: 150px;
-            overflow-y: auto; /* 標註：Scrolling bar 往下捲 */
-        }
-
-        .info-row {
-            display: flex;
-            padding: 4px 8px;
             border-bottom: 1px solid #eaeaea;
+            align-items: center;
         }
 
-        /* 模擬圖片中的綠色背景列 */
-        .info-row.highlight {
+        /* 標註：list select color #e8f3ff (選取/亮色行) */
+        .row.blue {
             background-color: #e8f3ff;
             border-bottom: 1px solid #cfddff;
         }
 
         .label {
-            width: 100px;
+            width: 80px;
+            color: #2f2f2f;
             font-weight: bold;
+        }
+
+        /* 捲軸美化 (可選，讓它更像圖片中的灰色捲軸) */
+        #infoList::-webkit-scrollbar {
+            width: 8px;
+        }
+        #infoList::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        #infoList::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="image-wrapper">
-        <img src="https://picsum.photos/450/240" alt="Preview" class="main-image">
-    </div>
+<div class="card">
+    <img src="https://picsum.photos/450/240" class="preview-img" alt="Main Preview">
 
-    <button class="btn-info" onclick="toggleInfo()">查看資訊</button>
+    <button class="btn-check" onclick="showInfo()">查看資訊</button>
 
-    <div id="infoBox">
-        <div class="info-row highlight">
-            <span class="label">修改日期：</span>
-            <span>2017/10/12</span>
+    <div id="infoList">
+        <div class="row blue">
+            <span class="label">修改日期：</span> 2017/10/12
         </div>
-        <div class="info-row">
-            <span class="label">類型：</span>
-            <span>JPG 圖片</span>
+        <div class="row">
+            <span class="label">類型：</span> JPG 檔案
         </div>
-        <div class="info-row highlight">
-            <span class="label">大小：</span>
-            <span>466.97 KB</span>
+        <div class="row blue">
+            <span class="label">大小：</span> 466.97 KB
         </div>
-        <div class="info-row">
-            <span class="label">路徑：</span>
-            <span>/Common Module/slice/sample.jpg</span>
+        <div class="row">
+            <span class="label">路徑：</span> /Design/sample/img_01.jpg
         </div>
-        <div class="info-row">
-            <span class="label">解析度：</span>
-            <span>1920 x 1080</span>
+        <div class="row blue">
+            <span class="label">解析度：</span> 1920 x 1080
+        </div>
+        <div class="row">
+            <span class="label">建立者：</span> Designer_A
+        </div>
+        <div class="row blue">
+            <span class="label">狀態：</span> 已審核
         </div>
     </div>
 </div>
 
 <script>
-    function toggleInfo() {
-        var x = document.getElementById("infoBox");
-        if (x.style.display === "none" || x.style.display === "") {
-            x.style.display = "block";
+    function showInfo() {
+        var box = document.getElementById("infoList");
+        if (box.style.display === "none" || box.style.display === "") {
+            box.style.display = "block";
         } else {
-            x.style.display = "none";
+            box.style.display = "none";
         }
     }
 </script>
