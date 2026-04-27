@@ -5,136 +5,148 @@
     <title>Engineer-Designer Cooperation</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
     <style>
+        /* 1. 讓整體容器在畫面正中間 */
         body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e0e0e0;
             font-family: 'Roboto', sans-serif;
-            background-color: #f0f0f0;
-            padding: 40px;
         }
 
-        .card {
+        .main-card {
             background: white;
-            width: 500px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            padding: 25px;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* 圖片區 */
-        .preview-img {
-            width: 450px;
-            height: 240px;
-            background-color: #eee;
-            border: 1px solid #ccc;
-            display: block;
-            margin-bottom: 15px;
-            object-fit: cover;
-        }
-
-        /* 按鈕嚴格遵守標註：h22, R8, 13px */
-        .btn-check {
+        /* 按鈕嚴格遵守標註：h22, R8, 13px, #2f2f2f */
+        .btn-info {
             height: 22px;               /* size: h22 */
             border-radius: 8px;         /* radius: 8 */
             background-color: #ffffff;  /* background #ffffff */
             border: 1px solid #2f2f2f;  /* outline 1px #2f2f2f */
             color: #2f2f2f;             /* Color: #2f2f2f */
             font-size: 13px;            /* Roboto Regular 13px */
-            
             padding: 0 15px;
             cursor: pointer;
+            margin-bottom: 20px;
             display: inline-flex;
             align-items: center;
-            margin-bottom: 15px;
-            transition: 0.2s;
+            outline: none;
         }
 
-        .btn-check:hover {
+        .btn-info:hover {
             background-color: #f6f6f6;
         }
 
-        /* 資訊清單區塊：強制顯示捲軸 */
-        #infoList {
+        /* 2. 讓圖片跟著一起滑動的捲軸容器 */
+        #displayContainer {
             display: none;             /* 預設隱藏 */
-            width: 450px;
-            height: 120px;             /* 固定高度以觸發捲軸 */
+            width: 460px;
+            height: 350px;             /* 固定視窗高度 */
             border: 1px solid #eaeaea;
-            overflow-y: scroll;        /* 強制顯示 Scrolling bar */
+            overflow-y: scroll;        /* 產生捲軸 */
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .content-inner {
+            width: 100%;
+        }
+
+        .preview-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 列表列樣式 (對齊設計稿標註) */
+        .info-row {
+            display: flex;
+            padding: 10px 15px;
+            font-size: 13px;
+            color: #707070;
+            border-bottom: 1px solid #eaeaea; /* list separator #eaeaea */
             background-color: #ffffff;
         }
 
-        /* 列表列樣式 */
-        .row {
-            display: flex;
-            padding: 8px 12px;
-            font-size: 12px;
-            color: #707070;
-            border-bottom: 1px solid #eaeaea;
-            align-items: center;
-        }
-
-        /* 標註：list select color #e8f3ff (選取/亮色行) */
-        .row.blue {
+        /* 標註：list select color #e8f3ff (藍色高亮行) */
+        .info-row.highlight {
             background-color: #e8f3ff;
             border-bottom: 1px solid #cfddff;
         }
 
-        .label {
-            width: 80px;
+        .info-label {
+            width: 100px;
             color: #2f2f2f;
             font-weight: bold;
         }
 
-        /* 捲軸美化 (可選，讓它更像圖片中的灰色捲軸) */
-        #infoList::-webkit-scrollbar {
-            width: 8px;
+        /* 捲軸樣式美化 */
+        #displayContainer::-webkit-scrollbar {
+            width: 10px;
         }
-        #infoList::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        #displayContainer::-webkit-scrollbar-track {
+            background: #f6f6f6;
         }
-        #infoList::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 4px;
+        #displayContainer::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <img src="https://picsum.photos/450/240" class="preview-img" alt="Main Preview">
+<div class="main-card">
+    <button class="btn-info" onclick="toggleDisplay()">查看資訊</button>
 
-    <button class="btn-check" onclick="showInfo()">查看資訊</button>
-
-    <div id="infoList">
-        <div class="row blue">
-            <span class="label">修改日期：</span> 2017/10/12
-        </div>
-        <div class="row">
-            <span class="label">類型：</span> JPG 檔案
-        </div>
-        <div class="row blue">
-            <span class="label">大小：</span> 466.97 KB
-        </div>
-        <div class="row">
-            <span class="label">路徑：</span> /Design/sample/img_01.jpg
-        </div>
-        <div class="row blue">
-            <span class="label">解析度：</span> 1920 x 1080
-        </div>
-        <div class="row">
-            <span class="label">建立者：</span> Designer_A
-        </div>
-        <div class="row blue">
-            <span class="label">狀態：</span> 已審核
+    <div id="displayContainer">
+        <div class="content-inner">
+            <img src="https://picsum.photos/450/240" class="preview-img" alt="Main Preview">
+            
+            <div class="info-row highlight">
+                <span class="info-label">修改日期：</span> 2017/10/12
+            </div>
+            <div class="info-row">
+                <span class="info-label">類型：</span> JPG 圖片
+            </div>
+            <div class="info-row highlight">
+                <span class="info-label">大小：</span> 466.97 KB
+            </div>
+            <div class="info-row">
+                <span class="info-label">路徑：</span> /Design/sample/img_01.jpg
+            </div>
+            <div class="info-row">
+                <span class="info-label">解析度：</span> 1920 x 1080
+            </div>
+            <div class="info-row highlight">
+                <span class="info-label">色彩空間：</span> sRGB
+            </div>
+            <div class="info-row">
+                <span class="info-label">建立者：</span> Engineer_Gemini
+            </div>
+            <div class="info-row">
+                <span class="info-label">版權資訊：</span> © 2026 QNAP Systems
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    function showInfo() {
-        var box = document.getElementById("infoList");
-        if (box.style.display === "none" || box.style.display === "") {
-            box.style.display = "block";
+    function toggleDisplay() {
+        var container = document.getElementById("displayContainer");
+        if (container.style.display === "none" || container.style.display === "") {
+            container.style.display = "block";
         } else {
-            box.style.display = "none";
+            container.style.display = "none";
         }
     }
 </script>
